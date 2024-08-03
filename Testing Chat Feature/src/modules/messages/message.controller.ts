@@ -3,16 +3,26 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { MessagesService } from './message.service';
 import { CreateMessageDto } from './dto/createMessage.dto';
 import { Message } from './schema/message.schema';
+import { constTexts } from 'src/constants';
+import { Action } from 'src/casl/userRoles';
+import { Auth, AuthUser } from 'src/decorators';
+import { User } from '../user/user.schema';
 
 @ApiTags('messages')
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
-  @Post()
+  @Post(constTexts.messageRoute.create)
   @ApiOperation({ summary: 'Send a message' })
   @ApiResponse({ status: 201, description: 'Message sent successfully.', type: Message })
-  async create(@Body() createMessageDto: CreateMessageDto) {
+  @Auth(Action.Create, "Post")
+
+  async create(
+    @Body() createMessageDto: CreateMessageDto,
+    @AuthUser() user: User,
+    @Param('chatId')chatId:string,
+  ) {
     return this.messagesService.create(createMessageDto);
   }
 

@@ -6,8 +6,7 @@ export type ChatRoomDocument = ChatRoom & Document;
 
 @Schema({ timestamps: true })
 export class ChatRoom {
-  @Prop({ type: String, required: true, unique: true })
-  id: string;
+ 
 
   @Prop({ type: String, enum: ['one-to-one', 'group'], default: 'one-to-one' })
   type: string;

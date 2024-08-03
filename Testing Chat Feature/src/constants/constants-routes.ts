@@ -89,10 +89,14 @@ export const constTexts = {
     
   },
 
+  messageRoute:{
+    create:"createMessage/:chatId"
+  },
   chatRoute: {
     name: "chat",
     inbox: "inbox",
     detail: ":id",
+    create:"CreateChatRoom/:id"
   },
 
   notifyRoute: {

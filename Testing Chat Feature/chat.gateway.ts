@@ -2,6 +2,9 @@ import { WebSocketGateway, SubscribeMessage, MessageBody, ConnectedSocket, OnGat
 import { Socket, Server } from 'socket.io';
 import { MessagesService } from './src/modules/messages/message.service';
 import { CreateMessageDto } from './src/modules/messages/dto/createMessage.dto';
+import { Auth, AuthUser } from 'src/decorators';
+import { User } from 'src/modules/user/user.schema';
+import { Action } from 'src/casl/userRoles';
 
 @WebSocketGateway({
   cors: {
@@ -26,13 +29,15 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
   }
 
   @SubscribeMessage('send_message')
+  @Auth(Action.Create, "Post")
   async handleMessage(
     @MessageBody() createMessageDto: CreateMessageDto,
     @ConnectedSocket() client: Socket,
+    @AuthUser() user: User,
   ) {
-    const senderId = client.id; // You can use user ID from JWT if you manage sessions
+
     try {
-      const message = await this.messageService.sendMessage(createMessageDto.chatRoomId, senderId, createMessageDto.content);
+      const message = await this.messageService.sendMessage(createMessageDto.chatRoomId, user.id, createMessageDto.content);
       this.server.to(createMessageDto.chatRoomId).emit('new_message', message);
     } catch (error) {
       throw new WsException(error.message);

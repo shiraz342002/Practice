@@ -6,9 +6,7 @@ export type MessageDocument = Message & Document;
 
 @Schema({ timestamps: true })
 export class Message {
-  @Prop({ type: String, required: true, unique: true })
-  id: string;
-
+ 
   @Prop({ type: String, required: true, ref: 'ChatRoom' })
   chatRoomId: string;
 

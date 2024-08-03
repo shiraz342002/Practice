@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ChatRoom, ChatRoomDocument } from './schema/chatRoom.schema';
-import { CreateChatRoomDto } from './dto/createChatRoom';
 
 @Injectable()
 export class ChatRoomService {
@@ -10,8 +9,9 @@ export class ChatRoomService {
     @InjectModel(ChatRoom.name) private readonly chatRoomModel: Model<ChatRoomDocument>,
   ) {}
 
-  async create(createChatRoomDto: CreateChatRoomDto): Promise<ChatRoom> {
-    const chatRoom = new this.chatRoomModel(createChatRoomDto);
+  async create(userId: string, recipientId: string): Promise<ChatRoom> {
+    const participants = [userId, recipientId];
+    const chatRoom = new this.chatRoomModel({ participants });
     return chatRoom.save();
   }
 
