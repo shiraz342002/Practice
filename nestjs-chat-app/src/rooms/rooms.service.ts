@@ -12,6 +12,8 @@ export class RoomsService {
     ) { }
 
     async create(userId: string, createRoomDto: CreateRoomDto) {
+        console.log(userId);
+        console.log(createRoomDto);
         createRoomDto.members.push(userId);
 
         const createdRoom = new this.roomModel(createRoomDto);

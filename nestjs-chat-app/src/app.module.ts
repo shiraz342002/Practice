@@ -14,21 +14,14 @@ import { JwtModule } from '@nestjs/jwt';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(
-      process.env.MONGO_URI,
-      {
-        connectionFactory: (connection) => {
-          connection.plugin(require('mongoose-autopopulate'));
-          return connection;
-        },
-      },
-    ),
+    MongooseModule.forRoot(process.env.DB_URL),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: process.env.JWT_EXPIRATION },
     }),
     CommandModule,
     UsersModule,
+    
     InterestsModule,
     AuthModule,
     RoomsModule,

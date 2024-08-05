@@ -18,13 +18,16 @@ export class RoomsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   create(@Request() req, @Body() createRoomDto: CreateRoomDto) {
+    // console.log(req);
+    // console.log(createRoomDto);
+    
     return this.roomsService.create(req.user._id.toString(), createRoomDto);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  getByRequest(@Request() req) {
+  getByRequest(@Request() req) {    
     return this.roomsService.getByRequest(req.user._id.toString());
   }
 
