@@ -1,4 +1,13 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, ConnectedSocket, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WsException } from '@nestjs/websockets';
+import {
+  WebSocketGateway,
+  SubscribeMessage,
+  MessageBody,
+  ConnectedSocket,
+  OnGatewayInit,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  WsException
+} from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { MessagesService } from './src/modules/messages/message.service';
 import { CreateMessageDto } from './src/modules/messages/dto/createMessage.dto';
@@ -35,9 +44,8 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @ConnectedSocket() client: Socket,
     @AuthUser() user: User,
   ) {
-
     try {
-      const message = await this.messageService.sendMessage(createMessageDto.chatRoomId, user.id, createMessageDto.content);
+      const message = await this.messageService.createMessage(createMessageDto.chatRoomId, user.id, createMessageDto.content);
       this.server.to(createMessageDto.chatRoomId).emit('new_message', message);
     } catch (error) {
       throw new WsException(error.message);

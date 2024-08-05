@@ -17,13 +17,13 @@ export class MessagesController {
   @ApiOperation({ summary: 'Send a message' })
   @ApiResponse({ status: 201, description: 'Message sent successfully.', type: Message })
   @Auth(Action.Create, "Post")
-
   async create(
     @Body() createMessageDto: CreateMessageDto,
     @AuthUser() user: User,
     @Param('chatId')chatId:string,
   ) {
-    return this.messagesService.create(createMessageDto);
+    console.log("controller running");
+    return this.messagesService.create(chatId,user.id,createMessageDto.content);
   }
 
   @Get(':chatRoomId')

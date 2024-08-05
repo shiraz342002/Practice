@@ -22,7 +22,6 @@ export class ChatRoomController {
 ) {
     return this.chatRoomService.create(user.id,id);
   }
-
   @Get(':id')
   @ApiOperation({ summary: 'Get chat room by ID' })
   @ApiResponse({ status: 200, description: 'Chat room details.', type: ChatRoom })

@@ -10,7 +10,8 @@ export class MessagesService {
     @InjectModel(Message.name) private readonly messageModel: Model<MessageDocument>,
   ) {}
 
-  async create(createMessageDto: CreateMessageDto): Promise<Message> {
+  async createMessage(chatRoomId: string, senderId: string, content: string): Promise<Message> {
+    const createMessageDto: CreateMessageDto = { chatRoomId, senderId, content };
     const message = new this.messageModel(createMessageDto);
     return message.save();
   }
@@ -27,12 +28,14 @@ export class MessagesService {
     return message;
   }
 
-  async sendMessage(chatRoomId: string, senderId: string, content: string ): Promise<Message> {
-    const createMessageDto: CreateMessageDto = {
-      chatRoomId,
-      senderId,
-      content,
-    };
-    return this.create(createMessageDto);
+
+  //This just for testing that db is taking data fine
+  async create(chatRoomId:string,userId:string,content:string){
+    console.log(chatRoomId);
+    console.log(userId);
+    console.log(content);
+    
+    const message={chatRoomId,userId,content}
+    return this.messageModel.create(message)
   }
 }

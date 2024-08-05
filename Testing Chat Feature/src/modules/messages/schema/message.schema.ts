@@ -7,10 +7,10 @@ export type MessageDocument = Message & Document;
 @Schema({ timestamps: true })
 export class Message {
  
-  @Prop({ type: String, required: true, ref: 'ChatRoom' })
+  @Prop({ type: String, required: false, ref: 'ChatRoom' })
   chatRoomId: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   senderId: string;
 
   @ApiProperty({ example: 'Hello, how are you?', description: 'Content of the message' })
