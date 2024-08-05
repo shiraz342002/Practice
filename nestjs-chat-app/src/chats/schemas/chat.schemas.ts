@@ -15,7 +15,7 @@ export class Chat {
     content: string;
 
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: User.name, autopopulate: true })
-    sender_id: User;
+    recipientId: string;
 
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: Room.name })
     room_id: Room;

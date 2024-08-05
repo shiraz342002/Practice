@@ -10,7 +10,8 @@ import { PasswordHashHelper } from 'src/helper/hash/password-hash.helper';
 export class UsersService {
 
   constructor(
-    @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+    private userStatus = new Map<string, boolean>()
   ) { }
 
   async create(dto: RegisterAuthDto) {
@@ -71,4 +72,12 @@ export class UsersService {
       data: updatedUser,
     };
   }
+  async chatOpen(userId: string, isOnline: boolean): Promise<void> {
+    await this.userModel.findByIdAndUpdate(userId, { online: isOnline });
+  }
+
+  isUserOnline(userId: string): boolean {
+    return this.userStatus.get(userId) || false;
+  }
+  
 }

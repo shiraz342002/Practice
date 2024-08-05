@@ -3,6 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/users/schemas/user.schemas';
 
 @Injectable()
 export class AuthService {
@@ -41,4 +42,12 @@ export class AuthService {
     private async signJwtToken(userId: string) {
         return this.jwtService.signAsync({ sub: userId });
     }
+    async getUserFromToken(token: string): Promise<User> {
+        try {
+          const decoded = this.jwtService.verify(token);
+          return decoded; 
+        } catch (error) {
+          return null;
+        }
+      }
 }
