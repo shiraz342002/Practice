@@ -20,7 +20,7 @@ import { ApiPageOkResponse, Auth, AuthUser } from "../../decorators";
 import { LoggerMessages } from "../../exceptions/index";
 import { LoggerService } from "../../logger/logger.service";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { User } from "./user.schema";
+import { User } from "./schema/user.schema";
 import { UserService } from "./user.service";
 import {  multerOptionsAvatar } from "src/configuration/multer.config";
 import { FileInterceptor } from "@nestjs/platform-express";

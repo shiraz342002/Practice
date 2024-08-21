@@ -3,7 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { validateHash } from "../../common/utils";
 import { TokenType } from "../../constants";
 import { ErrorCodesMeta, ResponseCode } from "../../exceptions";
-import type { User } from "../user/user.schema";
+import type { User } from "../user/schema/user.schema";
 import { UserService } from "../user/user.service";
 import { TokenPayloadDto } from "./dto/TokenPayloadDto";
 import { UserLoginDto } from "./dto/user.login.dto";

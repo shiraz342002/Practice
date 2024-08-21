@@ -15,7 +15,7 @@ import { getCharacterString } from "../../common/utils";
 import { Action } from "../../casl/userRoles";
 import { constTexts } from "../../constants";
 import { Auth, AuthUser, Public } from "../../decorators";
-import { User } from "../user/user.schema";
+import { User } from "../user/schema/user.schema";
 import { UserService } from "../user/user.service";
 import { IsUserUnique } from "./../../decorators/user-signup.decorator";
 import { AuthService } from "./auth.service";

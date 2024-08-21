@@ -4,7 +4,7 @@ import { CommentsService } from "./comments.service";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Action } from "src/casl/userRoles";
 import { Auth, AuthUser } from "src/decorators";
-import { User } from "../user/user.schema";
+import { User } from "../user/schema/user.schema";
 import { CommentDto, UpdateCommentDto } from "./Dto/comments.dto";
 
 @Controller(constTexts.commentRoute.name)

@@ -6,7 +6,7 @@ import { Message } from './schema/message.schema';
 import { constTexts } from 'src/constants';
 import { Action } from 'src/casl/userRoles';
 import { Auth, AuthUser } from 'src/decorators';
-import { User } from '../user/user.schema';
+import { User } from '../user/schema/user.schema';
 
 @ApiTags('messages')
 @Controller('messages')

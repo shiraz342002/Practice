@@ -1,7 +1,7 @@
 import { Ability, AbilityBuilder, AbilityClass } from "@casl/ability";
 import { Injectable } from "@nestjs/common";
 import { RoleType } from "../constants";
-import { User } from "../modules/user/user.schema";
+import { User } from "../modules/user/schema/user.schema";
 import { Action } from "./userRoles";
 
 export type Subjects = any;

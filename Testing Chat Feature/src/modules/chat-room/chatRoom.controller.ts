@@ -4,7 +4,7 @@ import { ChatRoomService } from './chatRoom.service';
 import { ChatRoom } from './schema/chatRoom.schema';
 import { constTexts } from 'src/constants';
 import { Auth, AuthUser } from 'src/decorators';
-import { User } from '../user/user.schema';
+import { User } from '../user/schema/user.schema';
 import { Action } from 'src/casl/userRoles';
 
 @ApiTags('chat-room')

@@ -12,7 +12,7 @@ import { Socket, Server } from 'socket.io';
 import { MessagesService } from './src/modules/messages/message.service';
 import { CreateMessageDto } from './src/modules/messages/dto/createMessage.dto';
 import { Auth, AuthUser } from 'src/decorators';
-import { User } from 'src/modules/user/user.schema';
+import { User } from 'src/modules/user/schema/user.schema';
 import { Action } from 'src/casl/userRoles';
 
 @WebSocketGateway({

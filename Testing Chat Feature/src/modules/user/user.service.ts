@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from "@nestjs/common";
+import { HttpException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { generateHash, getCharacterString } from "../../common/utils";
@@ -13,7 +13,7 @@ import { ResetPasswordDto } from "../auth/dto/reset-password.dto";
 import { VerifyOtpDto } from "../auth/dto/verify-otp.dto";
 import { MailService } from "../mail/mail.service";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { User, UserDocument, userJsonSchema } from "./user.schema";
+import { User, UserDocument, userJsonSchema } from "./schema/user.schema";
 import { ForgotPasswordDto } from "../auth/dto/forgot-password.dto";
 import { VerifyAccountDto } from "../auth/dto/verify-account.dto";
 import { UserSignupDto } from "../auth/dto/user.signup.dto";
@@ -348,20 +348,56 @@ export class UserService {
     return data
   }
 
-  async viewOtherProfile(userId:string){    
-    const fieldsToSelect = 'avatar name profession ratings createdAt task_completed city zip_code about';
-    const data = await this.userModel.findById(userId).select(fieldsToSelect).exec().catch((err)=>{
-      throw new HttpException(err.message,ResponseCode.NOT_FOUND);
-    })
-    return data
+  async viewOtherProfile(userId: string) {
+    const fieldsToSelect = 'avatar name profession ratings createdAt task_completed city zip_code about reviews';
+    
+    try {
+      const data = await this.userModel
+        .findById(userId)
+        .select(fieldsToSelect)
+        .populate({
+          path: 'reviews',
+          select: 'rating text reviewerId',
+          populate: {
+            path: 'reviewerId',
+            select: 'avatar name',
+          },
+        })
+        .exec();
+      if (!data) {
+        throw new HttpException('User not found', ResponseCode.NOT_FOUND);
+      }
+      
+      return data;
+    } catch (err) {
+      throw new HttpException(err.message, ResponseCode.NOT_FOUND);
+    }
   }
-
   async findCustomData(userId:string,custom_fields){
     const data = await this.userModel.findById(userId).select(custom_fields).exec().catch((err)=>{
       throw new HttpException(err.message,ResponseCode.NOT_FOUND);
     })
     return data
   }
+  async updateReviews(userId:string,reviewId:string){
+    await this.userModel.findByIdAndUpdate(userId,{$push:{reviews:reviewId}},{new:true})
+  }
+  
+  async CalcRatings(revieweeId: string, newRating: number): Promise<void> {
+    if (!Number.isInteger(newRating) || newRating < 1 || newRating > 5) {
+      throw new Error('Rating must be an integer between 1 and 5');
+    }
+    const user = await this.userModel.findById(revieweeId).select('ratings reviews').exec();
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const c_rating = user.ratings;
+    const numOfReviews = user.reviews.length;
+    const updatedRating = ((c_rating * (numOfReviews - 1)) + newRating) / numOfReviews;
+    const roundedRating = Math.round(updatedRating * 2) / 2;
+    await this.userModel.findByIdAndUpdate(revieweeId, { ratings: roundedRating }, { new: true }).exec();
+  }
+
 
 
 }

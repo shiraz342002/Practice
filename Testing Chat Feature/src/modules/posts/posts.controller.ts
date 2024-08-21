@@ -14,7 +14,7 @@ import { PostsService } from "./posts.service";
 import { constTexts } from "../../constants";
 import { ApiBody, ApiConsumes, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { PostEntity } from "./schema/post.schema";
-import { User } from "../user/user.schema";
+import { User } from "../user/schema/user.schema";
 import { ApiPageOkResponse, Auth, AuthUser } from "src/decorators";
 import { Action } from "src/casl/userRoles";
 import { UpdatePostDto } from "./dto/posts-update.dto";

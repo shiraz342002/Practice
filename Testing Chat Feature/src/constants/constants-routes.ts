@@ -66,6 +66,7 @@ export const constTexts = {
 
   reviewsRoute: {
     name: "reviews",
+    PostReview:"ReviewUserService/:revieweeId",
     update: ":id",
     delete: ":id",
     getOne: ":id",
